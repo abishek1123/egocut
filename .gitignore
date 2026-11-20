@@ -1,0 +1,5 @@
+weights/*
+!weights/download_weights.sh
+!weights/egocut_config.json
+__pycache__/
+*.pyc

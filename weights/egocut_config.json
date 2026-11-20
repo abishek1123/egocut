@@ -1,0 +1,73 @@
+{
+  "team_id": "DAX",
+  "slowfast": {
+    "sr": 1,
+    "crop": "full",
+    "bgr": true
+  },
+  "siglip": "google/siglip-base-patch16-224",
+  "compose": {
+    "top_v": 1000,
+    "top_n": 2000,
+    "k": 5,
+    "min_iou": 0.1,
+    "a": 0.5,
+    "bound": "verb",
+    "sym": false,
+    "keep": 2000
+  },
+  "selector": {
+    "top": 2000,
+    "margin": 0.25,
+    "min_len": 4.1,
+    "fill": true,
+    "budget": 0.149
+  },
+  "importance": {
+    "pos": "an exciting highlight moment from {c}",
+    "neg": "a boring, blurry, dark or static first-person video frame"
+  },
+  "extractor_cosine": 0.967,
+  "interest": {
+    "w": {
+      "cen": 2,
+      "nov": 2,
+      "chg": 0,
+      "sfn": 1,
+      "sfc": 1,
+      "sfnov": -1
+    },
+    "L": 5,
+    "smooth": 5,
+    "chosen_on": "SumMe (25 videos, public summarization dataset) - never on FPVSum"
+  },
+  "vmae": {
+    "enabled": true,
+    "variant": "short224_center",
+    "start": -8,
+    "note": "OpenTAD EPIC-finetuned VideoMAE-L; 16-frame snippets, stride 8 at 30 fps, first snippet padded; cosine to released features 0.958 verb / 0.943 noun"
+  },
+  "compose_sel": {
+    "top_v": 2000,
+    "top_n": 2000,
+    "k": 5,
+    "min_iou": 0.1,
+    "a": 0.5,
+    "bound": "verb",
+    "sym": false,
+    "keep": 2000
+  },
+  "sel_gamma": 1.0,
+  "sel_mode": "half",
+  "tuned_on": "EPIC-KITCHENS-100 training participants P04/P22/P30 held out (dev); detectors for tuning retrained without them",
+  "joint": {
+    "kv": 10,
+    "kn": 10,
+    "A": 12000,
+    "pre": 30000,
+    "sigma": 0.6,
+    "power": 0.5,
+    "rescore_beta": 0.6
+  },
+  "note_actions": "VideoMAE-L branch: joint per-anchor composition + recognition re-scoring (held-out mAP 24.1 -> 29.0)"
+}

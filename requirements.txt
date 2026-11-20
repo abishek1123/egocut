@@ -1,0 +1,19 @@
+# Tested with Python 3.10-3.12, CUDA 12.x. Install torch/torchvision matching your CUDA first, e.g.
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+torch==2.8.0+cu129
+torchvision==0.23.0+cu129
+numpy==1.26.4
+transformers==5.23.0
+sentencepiece==0.2.3
+protobuf==7.36.2
+fvcore==0.1.5.post20221221
+iopath==0.1.10
+simplejson==4.3.0
+pyyaml==6.0.3
+scipy==1.17.1
+pandas==3.0.6
+imageio-ffmpeg==0.8.1
+av==19.0.2
+requests==2.34.2
+gdown==6.5.2
+huggingface_hub==2.4.0
