@@ -1,9 +1,9 @@
 import sys, time, json, numpy as np, pandas as pd
-sys.path.insert(0, '/home/claude/joint'); sys.path.insert(1, '/home/claude/pkg/EgoCut/code'); sys.path.insert(2, '/home/claude/ego2/code')
+import os; HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, '..', 'code')); sys.path.insert(1, HERE)
 from joint import joint, load_raw
 from selector_fast import select
 from compose_eval import coverage, fast_map, ts
-E = '/home/claude/ego2'
+E = os.environ.get('EGOCUT_DEV_ROOT', os.path.join(HERE, '..', 'dev'))  # folder holding data/ek_annotations/EPIC_100_train.csv
 ann = pd.read_csv(f'{E}/data/ek_annotations/EPIC_100_train.csv')
 RAW = load_raw('dev'); vids = sorted(RAW)
 gt = {v: [dict(verb=r.verb_class, noun=r.noun_class, start=ts(r.start_timestamp), end=ts(r.stop_timestamp)) for r in g.itertuples()] for v, g in ann[ann.video_id.isin(vids)].groupby('video_id')}

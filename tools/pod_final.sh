@@ -84,10 +84,7 @@ __pycache__/
 EOF
 git init -q 2>/dev/null; git checkout -q -B main
 git -c user.name=abishek1123 -c user.email=abishek1123@users.noreply.github.com add -A
-git -c user.name=abishek1123 -c user.email=abishek1123@users.noreply.github.com commit -q -m "EgoCut (team DAX): Samsung PRISM XR Hackathon 2026, Track 4 submission
-
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01KU3hdwATy3e7KxRj17HoSP" && echo committed
+git -c user.name=abishek1123 -c user.email=abishek1123@users.noreply.github.com commit -q -m "EgoCut (team DAX): Samsung PRISM XR Hackathon 2026, Track 4 submission" && echo committed
 git push -q -f "https://x-access-token:$GH_TOKEN@github.com/$R.git" main && echo "pushed to https://github.com/$R"
 unset GH_TOKEN
 for a in siglip.tgz SHA256SUMS; do curl -s -o /dev/null -w "$a %{http_code}\n" -L https://github.com/$R/releases/download/weights-v1/$a; done
