@@ -88,4 +88,4 @@ git -c user.name=abishek1123 -c user.email=abishek1123@users.noreply.github.com 
 git push -q -f "https://x-access-token:$GH_TOKEN@github.com/$R.git" main && echo "pushed to https://github.com/$R"
 unset GH_TOKEN
 for a in siglip.tgz SHA256SUMS; do curl -s -o /dev/null -w "$a %{http_code}\n" -L https://github.com/$R/releases/download/weights-v1/$a; done
-echo; echo "ALL DONE - paste everything from step 2 onward back to Claude."
+echo; echo "ALL DONE - paste everything from step 2 onward into the team notes."
