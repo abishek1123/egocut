@@ -98,7 +98,18 @@ All our trained weights are in the GitHub release `weights-v1`, with SHA-256 che
 
 `run.sh` never leaves a video without a valid file: if the main pipeline fails for any reason (corrupt video, out of memory, missing library), `code/fallback.py` (standard library only) writes a minimal valid prediction. The system `ffmpeg` is preferred over the bundled one because very new static builds can hit thread limits inside containers.
 
-## 6. Layout
+## 6. Brownie features (beyond the track output)
+
+These run on the JSON files alone: Python + NumPy, no GPU, no model. They never touch `run.sh` or `outputs/`.
+
+| Feature | Command | What you get |
+|---|---|---|
+| Highlight reel | `python code/make_reel.py video.mp4 outputs/<id>.json reel.mp4` | The highlights cut from the original footage, each captioned with the actions detected inside it |
+| Timeline viewer | `python code/make_viewer.py video.mp4 outputs/<id>.json viewer.html` | A self-contained page with the video, detected actions and highlights on one timeline |
+| Ask your memory | `python code/brownie/ask.py outputs/<id>.json "when did I wash the plate?" --video video.mp4 --clips clips/` | Plain-English questions matched to the verb and noun classes (EPIC-KITCHENS synonym lists), answered with time stamps and clips. Also `--at 2:35` and `--between 1:00 2:00` |
+| Any-length summary | `python code/brownie/summarize.py outputs/<id>.json --seconds 30 --video video.mp4 --reel recap.mp4` | The coverage selector re-plans the highlight for any budget. On P01_11 (9 min): 30 s keeps 25 distinct detected actions, 60 s keeps 37, the submitted 14.9 % keeps 46 |
+
+## 7. Layout
 
 ```
 run.sh / run.bat        entry point (contract: <video.mp4> <out.json>)
@@ -109,6 +120,7 @@ code/compose.py         verb-noun composition (SlowFast fallback branch)
 code/selector_fast.py   EgoCut coverage selector
 code/write_official.py  official schema writer + highlight fixing (sorted, non-overlapping, ≥ 4.1 s)
 code/fallback.py        crash-safe minimal output
+code/brownie/           ask your memory + any-length summary (extras, not used by run.sh)
 code/validate_local.py  schema/rule checker
 code/third_party/       vendored ActionFormer (MIT) and EPIC SlowFast (Apache-2.0), NumPy NMS
 weights/                download_weights.sh, egocut_config.json (all tuned hyper-parameters)
