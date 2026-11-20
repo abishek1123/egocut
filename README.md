@@ -14,17 +14,17 @@ docker build -t egocut .            # downloads ~3.5 GB of weights during the bu
 docker run --gpus all -v /videos:/data -v /preds:/out egocut /data/P01_11.MP4 /out/P01_11.json
 ```
 
-**Option B — local Python (3.10–3.12, CUDA 12.x)**
+**Option B — local Python (tested: 3.12, CUDA 12.9)**
 ```bash
 sudo apt-get install -y ffmpeg
-pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu129
 pip install -r requirements.txt
 bash weights/download_weights.sh    # one-time, ~3.5 GB from our GitHub release, checksum-verified
 bash run.sh /videos/P01_11.MP4 outputs/P01_11.json
 ```
-Tested on NVIDIA RTX A6000 and RTX 6000 Ada. It also runs on CPU, but the two ViT-L backbones make that very slow.
+Tested on NVIDIA RTX A6000, RTX 6000 Ada and RTX 4090; on the 4090 a short clip takes about 30 s end to end, most of it loading the models (peak RAM about 3.8 GB). It also runs on CPU, but the two ViT-L backbones make that very slow.
 
-**Offline / isolated runs.** After the one-time weight download, `run.sh` needs no network: every model loads from `weights/` and Hugging Face is put in offline mode. We tested this with the network switched off.
+**Offline / isolated runs.** After the one-time weight download, `run.sh` needs no network: every model loads from `weights/` and Hugging Face is put in offline mode. We tested this on a fresh GPU machine with the network switched off: the outputs matched our submitted files (top-200 actions identical on all three test videos).
 
 **Option C — Windows:** same Python setup, then `run.bat C:\videos\P01_11.MP4 outputs\P01_11.json`.
 
