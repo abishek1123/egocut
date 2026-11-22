@@ -138,7 +138,7 @@ code/data/              manifest.csv and supported_classes.json from the student
 code/third_party/       vendored ActionFormer (MIT) and EPIC SlowFast (Apache-2.0), NumPy NMS
 weights/                download_weights.sh, egocut_config.json (all tuned hyper-parameters)
 outputs/                our 187 predictions (one per manifest row)
-docs/                   presentation, demo video, demo clips, AI disclosure
+docs/                   presentation, demo video, demo clips
 tools/                  research scripts: dev split, tuning, evaluation, release test (see tools/README.md)
 Dockerfile, requirements.txt
 ```
