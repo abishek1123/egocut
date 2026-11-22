@@ -11,7 +11,7 @@ bash run.sh <video.mp4> <out.json>
 | Item | Where |
 |---|---|
 | Presentation | [`docs/VIT_DAX.pptx`](docs/VIT_DAX.pptx) |
-| Demo video (2:59) | [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
+| Demo video (2:59) | [Watch on Google Drive](https://drive.google.com/file/d/1W9k9lqUaBlYUficIutuu_yBHdt5kRyGE/view?usp=sharing) · repo copy: [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
 | Example outputs | [`outputs/`](outputs) (187 JSON files, one per manifest video) |
 | Highlight reels and answer clips | [`docs/demo/`](docs/demo) (EPIC-KITCHENS-100 footage, CC BY-NC 4.0) |
 | Model weights | GitHub release [`weights-v1`](https://github.com/abishek1123/egocut/releases/tag/weights-v1) |
