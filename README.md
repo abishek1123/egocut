@@ -10,7 +10,7 @@ bash run.sh <video.mp4> <out.json>
 
 | Item | Where |
 |---|---|
-| Presentation | [`docs/VIT_DAX.pptx`](docs/VIT_DAX.pptx) |
+| Presentation | [View PDF](docs/VIT_DAX.pdf) (opens in the browser) · [PowerPoint](docs/VIT_DAX.pptx) |
 | Demo video (2:59) | [Watch on Google Drive](https://drive.google.com/file/d/1W9k9lqUaBlYUficIutuu_yBHdt5kRyGE/view?usp=sharing) · repo copy: [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
 | Example outputs | [`outputs/`](outputs) (187 JSON files, one per manifest video) |
 | Highlight reels and answer clips | [`docs/demo/`](docs/demo) (EPIC-KITCHENS-100 footage, CC BY-NC 4.0) |
@@ -38,7 +38,7 @@ docker run --gpus all -v /videos:/data -v /preds:/out egocut /data/P01_11.MP4 /o
 
 **Option C — Windows:** same Python setup, then `run.bat C:\videos\P01_11.MP4 outputs\P01_11.json`.
 
-**Validate:** `python code/validate_local.py --dir outputs/`. The kit did not include `validate.py`, so this is our implementation of every check in `TEAM_README.md` section 5.
+**Validate:** `python validate.py --dir outputs/`. The kit did not include `validate.py`, so, as the organisers asked, we wrote our own: it runs `code/validate_local.py`, which implements every check in `TEAM_README.md` section 5.
 
 ## 2. How it works
 
@@ -133,12 +133,13 @@ code/fallback.py        crash-safe minimal output
 code/brownie/           ask your memory + any-length summary (extras, not used by run.sh)
 code/make_reel.py       highlight reel with action captions
 code/make_viewer.py     timeline viewer page
+validate.py             runs code/validate_local.py (python validate.py --dir outputs/)
 code/validate_local.py  schema/rule checker
 code/data/              manifest.csv and supported_classes.json from the student kit
 code/third_party/       vendored ActionFormer (MIT) and EPIC SlowFast (Apache-2.0), NumPy NMS
 weights/                download_weights.sh, egocut_config.json (all tuned hyper-parameters)
 outputs/                our 187 predictions (one per manifest row)
-docs/                   presentation, demo video, demo clips
+docs/                   presentation (PDF + PPTX), demo video, demo clips
 tools/                  research scripts: dev split, tuning, evaluation, release test (see tools/README.md)
 Dockerfile, requirements.txt
 ```
