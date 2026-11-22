@@ -11,20 +11,14 @@ bash run.sh <video.mp4> <out.json>
 | Item | Where |
 |---|---|
 | Presentation | [`docs/VIT_DAX.pptx`](docs/VIT_DAX.pptx) |
-| Demo video (under 3 min) | [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
+| Demo video (2:59) | [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
 | Example outputs | [`outputs/`](outputs) (187 JSON files, one per manifest video) |
-| Highlight reels and answer clips | [`docs/demo/`](docs/demo) |
+| Highlight reels and answer clips | [`docs/demo/`](docs/demo) (EPIC-KITCHENS-100 footage, CC BY-NC 4.0) |
 | Model weights | GitHub release [`weights-v1`](https://github.com/abishek1123/egocut/releases/tag/weights-v1) |
 
 ## 1. Setup
 
-**Option A — Docker (recommended, GPU)**
-```bash
-docker build -t egocut .            # downloads ~3.5 GB of weights during the build
-docker run --gpus all -v /videos:/data -v /preds:/out egocut /data/P01_11.MP4 /out/P01_11.json
-```
-
-**Option B — local Python (tested: 3.12, CUDA 12.9)**
+**Option A — local Python (tested: Python 3.12, CUDA 12.9)**
 ```bash
 sudo apt-get install -y ffmpeg
 pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu129
@@ -32,13 +26,19 @@ pip install -r requirements.txt
 bash weights/download_weights.sh    # one-time, ~3.5 GB from our GitHub release, checksum-verified
 bash run.sh /videos/P01_11.MP4 outputs/P01_11.json
 ```
-Tested on NVIDIA RTX A6000, RTX 6000 Ada and RTX 4090; on the 4090 a short clip takes about 30 s end to end, most of it loading the models (peak RAM about 3.8 GB). It also runs on CPU, but the two ViT-L backbones make that very slow.
+Tested on NVIDIA RTX A6000, RTX 6000 Ada and RTX 4090; on the 4090 a short clip takes about 30 s end to end, most of it loading the models (peak RAM about 3.8 GB). A CUDA GPU is expected: on a CPU-only machine with 7 GB of RAM the two ViT-L backbones run out of memory, and `run.sh` then writes the minimal fallback file.
 
-**Offline / isolated runs.** After the one-time weight download, `run.sh` needs no network: every model loads from `weights/` and Hugging Face is put in offline mode. We tested this on a fresh GPU machine with the network switched off: the outputs matched our submitted files (top-200 actions identical on all three test videos).
+**Offline / isolated runs.** After the one-time weight download, `run.sh` needs no network: every model loads from `weights/` and Hugging Face is put in offline mode. We tested this on fresh GPU machines with the network switched off, starting from a clean clone of this repository: the outputs matched our submitted files (same label and highlights; 192–199 of the top 200 actions identical).
+
+**Option B — Docker (GPU)**
+```bash
+docker build -t egocut .            # downloads ~3.5 GB of weights during the build
+docker run --gpus all -v /videos:/data -v /preds:/out egocut /data/P01_11.MP4 /out/P01_11.json
+```
 
 **Option C — Windows:** same Python setup, then `run.bat C:\videos\P01_11.MP4 outputs\P01_11.json`.
 
-**Validate:** `python code/validate_local.py --dir outputs/` (our rule-by-rule implementation of the kit's checks; use the official `validate.py` if you have it).
+**Validate:** `python code/validate_local.py --dir outputs/`. The kit did not include `validate.py`, so this is our implementation of every check in `TEAM_README.md` section 5.
 
 ## 2. How it works
 
@@ -98,7 +98,7 @@ The test videos' annotations are treated as hidden test labels, so every number 
 | VideoMAE-L EPIC-KITCHENS-100 verb/noun backbones | sming256/OpenTAD (VideoMAE, MCG-NJU) | Apache-2.0 / CC BY-NC 4.0 |
 | ActionFormer heads on VideoMAE-L features | trained by us (ActionFormer code, happyharrycn/actionformer_release) | MIT |
 | SlowFast-R50, EPIC-KITCHENS-100 | epic-kitchens/C1-Action-Recognition (SlowFast.pyth) | Apache-2.0 |
-| SigLIP base patch16-224 | google/siglip-base-patch16-224 (downloaded from Hugging Face on first run) | Apache-2.0 |
+| SigLIP base patch16-224 | google/siglip-base-patch16-224 (mirrored in our weights release) | Apache-2.0 |
 | EPIC-KITCHENS-100 train annotations | epic-kitchens/epic-kitchens-100-annotations | CC BY-NC 4.0 |
 | SumMe (dev for the interest model) | gyglim / ETH | research use |
 
@@ -131,8 +131,14 @@ code/selector_fast.py   EgoCut coverage selector
 code/write_official.py  official schema writer + highlight fixing (sorted, non-overlapping, ≥ 4.1 s)
 code/fallback.py        crash-safe minimal output
 code/brownie/           ask your memory + any-length summary (extras, not used by run.sh)
+code/make_reel.py       highlight reel with action captions
+code/make_viewer.py     timeline viewer page
 code/validate_local.py  schema/rule checker
+code/data/              manifest.csv and supported_classes.json from the student kit
 code/third_party/       vendored ActionFormer (MIT) and EPIC SlowFast (Apache-2.0), NumPy NMS
 weights/                download_weights.sh, egocut_config.json (all tuned hyper-parameters)
 outputs/                our 187 predictions (one per manifest row)
+docs/                   presentation, demo video, demo clips, AI disclosure
+tools/                  research scripts: dev split, tuning, evaluation, release test (see tools/README.md)
+Dockerfile, requirements.txt
 ```

@@ -13,7 +13,6 @@ so paths inside may need adjusting.
 | `pick_bgr.py`, `compare_feats.py` | Checked our MP4 feature extraction against the official EPIC features (found the BGR channel-order fix; cosine 0.74 -> 0.967) |
 | `imp_search.py`, `cv.py` | Chose the interest-model weights on SumMe, with 5-fold cross-validation |
 | `pod_final.sh` | Release check on a fresh GPU machine: install, fetch weights, run `run.sh` with the network off, compare with `outputs/`, pin versions |
-| `pod_test_pkg.sh` | End-to-end package test: runs `run.sh` exactly as the organisers do and checks validity and timing |
 
 All tuning and every number we report come from the dev split or SumMe. EPIC-KITCHENS-100 validation and FPVSum
 annotations (the test set) were never used for training, tuning or model selection.
