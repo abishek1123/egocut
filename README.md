@@ -6,6 +6,16 @@ EgoCut turns a first-person video into (1) a list of detected **verb–noun acti
 bash run.sh <video.mp4> <out.json>
 ```
 
+## 0. Submission materials
+
+| Item | Where |
+|---|---|
+| Presentation | [`docs/VIT_DAX.pptx`](docs/VIT_DAX.pptx) |
+| Demo video (under 3 min) | [`docs/EgoCut_DAX_demo.mp4`](docs/EgoCut_DAX_demo.mp4) |
+| Example outputs | [`outputs/`](outputs) (187 JSON files, one per manifest video) |
+| Highlight reels and answer clips | [`docs/demo/`](docs/demo) |
+| Model weights | GitHub release [`weights-v1`](https://github.com/abishek1123/egocut/releases/tag/weights-v1) |
+
 ## 1. Setup
 
 **Option A — Docker (recommended, GPU)**
